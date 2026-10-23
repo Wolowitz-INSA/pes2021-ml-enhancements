@@ -6,7 +6,7 @@ An unofficial, experimental collection of Sider modules and optional offline too
 
 ## Download and install
 
-Download **[PES2021-ML-Enhancements-Community-r4.zip](https://github.com/Wolowitz-INSA/pes2021-ml-enhancements/releases/download/community-r4/PES2021-ML-Enhancements-Community-r4.zip)** from **[Community r4](https://github.com/Wolowitz-INSA/pes2021-ml-enhancements/releases/tag/community-r4)**. This named ZIP contains the installable modules, offline-tool source and licenses. GitHub's automatic source-code archives contain this documentation repository only.
+Download **[PES2021-ML-Enhancements-Community-r5.zip](https://github.com/Wolowitz-INSA/pes2021-ml-enhancements/releases/download/community-r5/PES2021-ML-Enhancements-Community-r5.zip)** from **[Community r5](https://github.com/Wolowitz-INSA/pes2021-ml-enhancements/releases/tag/community-r5)**. This named ZIP contains the installable modules, offline-tool source and licenses. GitHub's automatic source-code archives contain this documentation repository only.
 
 1. Fully exit the game and Sider, then extract the ZIP into a writable folder.
 2. Open PowerShell in the extracted folder. Replace the example Sider path with your active installation:
@@ -46,14 +46,17 @@ Offline tools require **Python 3.10+**, with no third-party Python packages, and
 
 Recruitment protects the current player's club and verified outgoing loans, excludes loaned players from permanent moves, and writes a separate candidate for review. It does not create free-agent contracts. Tactical adaptation chooses among existing native presets. Preserve the original save and review candidates before trying them; neither tool automatically overwrites it.
 
-## r4 fixes and validation limits
+## r5 dynamic discovery and compatibility
 
-- Fixed corrupted teammate overlay text and crashes when switching pages by retaining registered callbacks.
-- Fixed startup failures caused by Lua functions unavailable in Sider's restricted environment.
+All six runtime modules now locate unique instruction signatures and resolve functions, continuations and data references from the running executable. They no longer use fixed RVAs or executable filenames. Code relationships, structure offsets and hook ownership are still checked before writes. Formula defaults, AI settings and player-team protection are unchanged; r4's callback-retention fix is preserved.
 
-**Live validation currently covers main-menu module initialization, overlay display and repeated page switching.** Full-match effects, controller-switch timing, candidate-save progression and multi-season balance still need playtesting. Offline tests and native-code emulation do not replace that validation.
+**Sider supports Steam PES 2021; this package has not yet been verified against a Steam executable.** Relocated functions/data can be recognized when the required instruction semantics and layouts match. Different engine logic may still require adaptation. See [Sider's official documentation](https://mapote.com/doc/sider/sider7/readme.html).
 
-Runtime modules require matching executable signatures. Offline tools require the supported **575-club layout plus built-in team-boundary and name checks**; other languages or reordered rosters may be rejected. Public selection does not make every overhaul compatible. Do not bypass failed checks.
+Validation includes independently relocated functions and data, duplicate/wrong-target rejection, real Sider pointer types, and offline initialization against two local executables. Their relevant code layouts are identical, so these are not two distinct engine versions tested. **r5 still needs live-game and Steam validation.** Earlier r4 main-menu/overlay testing does not validate this update in a running game.
+
+Fully exit both the game and Sider before upgrading: r5 must not reuse r4 instant-result hooks. Successful initialization alone is not proof of match behavior. Report complete current-launch errors, executable origin/version and other gameplay patches if a check fails; do not bypass it.
+
+Offline recruitment/tactics tools retain their separate **575-club layout plus team-boundary and name checks**. Public target selection does not remove save/database compatibility requirements.
 
 ## Notices and feedback
 

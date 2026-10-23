@@ -1,8 +1,14 @@
-# PES 2021 Master League Enhancements: User Guide (r4)
+# PES 2021 Master League Enhancements: User Guide (r5)
 
 **For normal play, complete installation and verification below.** The Sider modules need neither Python nor database-path setup. Existing Master League saves can be used; a new career is not required.
 
-You need a working Sider installation. Runtime modules check executable code and refuse unsupported signatures. Offline tools require the supported save format and **575-club table structure**, and must also pass built-in team-boundary and name checks. Other languages or reordered rosters may be rejected; matching the club count alone is insufficient. Renaming files, removing checks or changing signatures does not establish compatibility.
+You need a working Sider installation. All six runtime modules in r5 locate code dynamically instead of writing at fixed RVAs (addresses relative to the executable base). They find unique instruction signatures, resolve calls, continuations and data references in the current program, and verify code relationships and data layouts. Executable filenames are not version checks.
+
+**Sider supports Steam PES 2021, but this package has not been verified against a Steam executable.** Dynamic discovery accommodates relocated functions and data; it does not automatically understand every modified engine. A feature refuses activation when required instructions, layouts or occupied hook entries do not match. Renaming files or bypassing checks does not establish compatibility. See the [official Sider documentation](https://mapote.com/doc/sider/sider7/readme.html) for installation and version support.
+
+Validation covers tests that relocate functions and data independently, plus offline initialization against two local executable files. Their relevant native code layouts are the same, so they do not count as two distinct engine versions tested. r5 still needs live-match and Steam testing. Earlier r4 main-menu and overlay testing does not validate this new implementation in a running game.
+
+Offline recruitment and tactics tools are separate from executable discovery. They still require the supported save format and **575-club table structure**, plus built-in team-boundary and name checks. Other languages or reordered rosters may be rejected; matching the club count alone is insufficient. Public top-16 selection does not remove these format constraints.
 
 ## 1. Install and verify
 
@@ -30,7 +36,9 @@ Restart Sider and the game, then verify:
 2. Open the Sider overlay and visit each module. Space normally opens it and **1** cycles modules; use your own `sider.ini` key settings if different.
 3. Enter a match and inspect player identification, enabled status and call counters. A visible page confirms loading; increasing counters show that the relevant native path was actually called. Instant-result counters update after directly skipping a match.
 
-If an error appears, retain the log and stop using the affected module. Fully restart the game and Sider after updates or switching AI editions.
+If an error occurs, keep the current-launch log and stop using the affected module. `signature missing or changed` means the complete signature was not found; `ambiguous` means multiple candidates were found. Failed call-relationship or layout checks mean that entry is not supported yet. Changing gameplay parameters will not fix these failures. Include the package release, executable origin/version, control mode, complete error and other gameplay mods when reporting a problem; you do not need to publish the game executable.
+
+Fully exit and restart both the game and Sider after updates or edition changes. **Do not replace r4 with r5 while the game is running:** instant results uses a new hook marker and saves runtime original instructions differently, so an old hook cannot be reused as the new version. Formula settings, default AI tier and player-team protections are unchanged.
 
 ## 2. Features, controls and teammate AI level
 
